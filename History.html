@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ประวัติการเข้าเรียน</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>ประวัติการเข้าเรียน</h1>
+        <div id="attendanceRecords"></div>
+        <center><button id="backButton">กลับ</button></center>
+    </div>
+
+    <script>
+        
+        function loadAttendanceHistory() {
+            const attendanceContainer = document.getElementById('attendanceRecords');
+            attendanceContainer.innerHTML = ''; // ล้างข้อมูลเดิม
+
+            const today = new Date();
+            const weekDays = [...Array(7).keys()].map(i => {
+                const date = new Date();
+                date.setDate(today.getDate() - i);
+                return date.toISOString().split('T')[0]; // วันที่ในรูปแบบ 'YYYY-MM-DD'
+            });
+
+            weekDays.forEach(date => {
+                const attendanceKey = `attendance_${date}`; // สร้าง key สำหรับการเข้าเรียนในวันนั้น
+                const records = JSON.parse(localStorage.getItem(attendanceKey)) || []; // ดึงข้อมูลการเข้าเรียน
+
+                if (records.length > 0) {
+                    const dateDiv = document.createElement('div');
+                    dateDiv.classList.add('attendance-date');
+                    dateDiv.innerHTML = `<h2>วันที่ ${date}</h2>`; // แสดงวันที่
+                    const recordList = document.createElement('ul');
+
+                    records.forEach((record, index) => {
+                        const recordItem = document.createElement('li');
+                        recordItem.innerHTML = `
+                            <span>รหัสนักศึกษา:S001</span><br>
+                            <span>ชื่อ: สมชาย ใจดี</span><br>
+                            <span>เข้าเรียนเวลา: ${record.time}</span>
+                            <button class="deleteButton" data-date="${date}" data-index="${index}">ลบ</button>
+                        `;
+                        recordList.appendChild(recordItem);
+                    });
+
+                    dateDiv.appendChild(recordList);
+                    attendanceContainer.appendChild(dateDiv);
+                }
+            });
+        }
+
+        document.getElementById('backButton').addEventListener('click', function() {
+            window.location.href = 'index.html';
+        });
+
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('deleteButton')) {
+                const date = event.target.getAttribute('data-date');
+                const index = event.target.getAttribute('data-index');
+                const attendanceKey = `attendance_${date}`;
+                const records = JSON.parse(localStorage.getItem(attendanceKey)) || [];
+
+                
+
+                // ลบรายการที่เลือก
+                records.splice(index, 1);
+                localStorage.setItem(attendanceKey, JSON.stringify(records));
+
+                // โหลดข้อมูลใหม่หลังลบ
+                loadAttendanceHistory();
+            }
+        });
+
+        window.onload = loadAttendanceHistory;
+    </script>
+
+    <style>
+        /* สไตล์ CSS สำหรับหน้า attendanceHistory.html */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #20bb8c;
+            margin: 0;
+            padding: 150px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: rgb(240, 239, 239);
+            padding: 50px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            text-align: center;
+            font-size: 30px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 5px 10px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        button:hover {
+            background-color: #d32f2f;
+        }
+
+        .back-button {
+            margin-top: 20px;
+            background-color: #4CAF50;
+        }
+
+        .back-button:hover {
+            background-color: #45a049;
+            
+        }
+    </style>
+</body>
+</html>

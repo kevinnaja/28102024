@@ -1,0 +1,77 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color:  #20bb8c;
+    margin: 0;
+    padding: 150px;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+    background: rgb(240, 239, 239);
+    padding: 100px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: "Kanit", serif;
+}
+
+h1, h2 {
+    text-align: center;
+    font-size: 40px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 5px;
+}
+
+input {
+    padding: 20px;
+    margin-bottom: 15px;
+}
+
+button {
+    padding: 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size:15px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#attendanceRecord {
+    margin-top: 20px;
+}
+/* สไตล์ของรายการใน recordList */
+#recordList {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#recordList li {
+    background-color: #e6f7f1;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    color: #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#recordList li span {
+    font-weight: bold;
+    color: #555;
+}
+
